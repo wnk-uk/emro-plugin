@@ -16,8 +16,7 @@ repositories {
 intellij {
     version.set("2023.2.8")
     type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf("java"))
 }
 
 tasks {
@@ -43,5 +42,29 @@ tasks {
 
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
+    }
+
+    runIde {
+        jvmArgs(
+            "-Xmx2048m",
+            "-XX:ReservedCodeCacheSize=512m",
+            "-XX:+UseG1GC",
+            "-Didea.is.unit.test=true",
+            "-Didea.is.integration.test=true",
+            "-Didea.debug.mode=true",
+            "-Djava.net.preferIPv4Stack=true"
+        )
+    }
+
+    runIdeForUiTests {
+        jvmArgs(
+            "-Xmx2048m",
+            "-XX:ReservedCodeCacheSize=512m",
+            "-XX:+UseG1GC",
+            "-Didea.is.unit.test=true",
+            "-Didea.is.integration.test=true",
+            "-Didea.debug.mode=true",
+            "-Djava.net.preferIPv4Stack=true"
+        )
     }
 }

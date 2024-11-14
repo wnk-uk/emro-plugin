@@ -24,7 +24,18 @@
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-    <extensions defaultExtensionNs="com.intellij">
 
+
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="com.emro.emroplugin.StartUpActivity"/>
+        <!--<completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="HTML"/>-->
     </extensions>
+
+    <actions>
+        <action id="MyTranslateAction" class="com.emro.langconverter.TranslateAction" text="Translate Text">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt U"/>
+        </action>
+    </actions>
+
 </idea-plugin>

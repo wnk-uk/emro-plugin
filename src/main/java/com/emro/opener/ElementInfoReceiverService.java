@@ -8,6 +8,7 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 
+import com.jetbrains.exported.JBRApi;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -15,20 +16,21 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
-@Service
+@Service(Service.Level.PROJECT)
 public final class ElementInfoReceiverService {
 
     private final Project project;
     private final HttpServer server;
 
     public ElementInfoReceiverService(Project project) throws IOException {
+        System.out.println("HTTP Server started on port 8081");
+
         this.project = project;
         this.server = HttpServer.create(new InetSocketAddress(8081), 0);
-
         // HTTP 요청을 받을 컨텍스트 설정
         server.createContext("/receive-element-info", handleRequest());
         server.start();
-        System.out.println("HTTP Server started on port 8080");
+
         Disposer.register(project, this::stopServer);
     }
 
