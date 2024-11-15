@@ -8,6 +8,7 @@ import com.intellij.openapi.startup.ProjectActivity
 
 class StartUpActivity : ProjectActivity, DumbAware {
     override suspend fun execute(project: Project) {
+        println("ElementInfoReceiverService initialized manually.")
         ApplicationManager.getApplication().invokeLater {
             val service = project.getService(ElementInfoReceiverService::class.java)
             service?.let {

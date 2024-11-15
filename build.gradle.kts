@@ -49,8 +49,6 @@ tasks {
             "-Xmx2048m",
             "-XX:ReservedCodeCacheSize=512m",
             "-XX:+UseG1GC",
-            "-Didea.is.unit.test=true",
-            "-Didea.is.integration.test=true",
             "-Didea.debug.mode=true",
             "-Djava.net.preferIPv4Stack=true"
         )
@@ -61,8 +59,6 @@ tasks {
             "-Xmx2048m",
             "-XX:ReservedCodeCacheSize=512m",
             "-XX:+UseG1GC",
-            "-Didea.is.unit.test=true",
-            "-Didea.is.integration.test=true",
             "-Didea.debug.mode=true",
             "-Djava.net.preferIPv4Stack=true"
         )

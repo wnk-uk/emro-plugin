@@ -8,14 +8,17 @@
     <name>Emro-plugin</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="emro@emro.co.kr" url="https://www.yourcompany.com">emro</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    This is an IntelliJ Plugin for Emro developers.
+    This is an IntelliJ Plugin for Emro developers.
+    This is an IntelliJ Plugin for Emro developers.
+    This is an IntelliJ Plugin for Emro developers.
+    This is an IntelliJ Plugin for Emro developers.
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -27,7 +30,8 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <postStartupActivity implementation="com.emro.emroplugin.StartUpActivity"/>
+        <!--<postStartupActivity implementation="com.emro.emroplugin.StartUpActivity"/>-->
+	    <backgroundPostStartupActivity implementation="com.emro.emroplugin.StartUpActivity"/>
         <!--<completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="HTML"/>-->
     </extensions>
 
