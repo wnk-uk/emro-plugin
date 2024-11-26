@@ -1,9 +1,9 @@
-package com.emro.langconverter;
+package com.emro.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dictionary {
+public class InMemoryDictionary {
 
     private static Map<String, Map<String, String>> dictionary;
 

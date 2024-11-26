@@ -1,4 +1,6 @@
-package com.emro.langconverter;
+package com.emro.converter;
+
+import com.emro.model.InMemoryDictionary;
 
 import java.util.Map;
 
@@ -6,7 +8,7 @@ public class TranslateText {
 
     public static String translate(String input) {
         // 용어집 로드 예제 (Map<String, Map<String, String>> 형태로 저장된 경우)
-        Map<String, Map<String, String>> dictionary = Dictionary.load();
+        Map<String, Map<String, String>> dictionary = InMemoryDictionary.load();
 
         if (dictionary.containsKey(input)) {
             String languageCode = "AA";

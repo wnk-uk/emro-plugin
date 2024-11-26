@@ -1,4 +1,4 @@
-package com.emro.langconverter;
+package com.emro.converter;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

@@ -30,13 +30,13 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <!--<postStartupActivity implementation="com.emro.emroplugin.StartUpActivity"/>-->
-	    <backgroundPostStartupActivity implementation="com.emro.emroplugin.StartUpActivity"/>
-        <!--<completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="HTML"/>-->
+	    <backgroundPostStartupActivity implementation="com.emro.emro.plugin.StartUpActivity"/>
+        <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="any"/>
+        <!--<typedHandler implementation="com.emro.contributor.KoreanTypedHandler"/>-->
     </extensions>
 
     <actions>
-        <action id="MyTranslateAction" class="com.emro.langconverter.TranslateAction" text="Translate Text">
+        <action id="MyTranslateAction" class="com.emro.converter.TranslateAction" text="Translate Text">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt U"/>
         </action>
