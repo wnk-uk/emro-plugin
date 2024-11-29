@@ -28,21 +28,22 @@ public class AutoCompletionContributor extends CompletionContributor {
                         // 현재 입력값 가져오기
                         String inputText = getInputText(parameters);
 
-
-
                         if (isKorean(inputText)) {
-                            List<Map<String, Object>> completions = SuffixTrie.getInstance().search(inputText);
-                            for (Map<String, Object> completion : completions) {
-                                System.out.println(completion);
-                                Map<String, String> metadata = (Map<String, String>) completion.get("metadata");
+	                        List<Map<String, Object>> completions = null;
+	                        try {
+		                        completions = LuceneManager.getInstance().search("ko", inputText);
+	                        } catch (Exception e) {
+		                        throw new RuntimeException(e);
+	                        }
+	                        for (Map<String, Object> completion : completions) {
                                 result.addElement(LookupElementBuilder.create((String) completion.get("ko"))
-                                        .withTypeText((String) metadata.get("source"), true)
-                                        .withTailText((String) "-" + metadata.get("en"), true)
+                                        .withTypeText((String) completion.get("source"), true)
+                                        .withTailText((String) "-" + completion.get("en"), true)
                                         .withInsertHandler((con, item) -> {
                                             // 사용자가 선택했을 때 삽입될 텍스트
                                             int startOffset = con.getStartOffset();
                                             int tailOffset = con.getTailOffset();
-                                            con.getDocument().replaceString(startOffset, tailOffset, (String) metadata.get("key"));
+                                            con.getDocument().replaceString(startOffset, tailOffset, (String) completion.get("key"));
                                         }));
                             }
 

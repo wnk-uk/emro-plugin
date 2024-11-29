@@ -11,6 +11,12 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    // Apache Lucene
+    implementation("org.apache.lucene:lucene-core:9.6.0") // 최신 버전으로 수정
+    implementation("org.apache.lucene:lucene-queryparser:9.6.0") // QueryParser 사용 시 필요
+}
+
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
