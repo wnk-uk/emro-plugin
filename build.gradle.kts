@@ -13,8 +13,9 @@ repositories {
 
 dependencies {
     // Apache Lucene
-    implementation("org.apache.lucene:lucene-core:9.6.0") // 최신 버전으로 수정
-    implementation("org.apache.lucene:lucene-queryparser:9.6.0") // QueryParser 사용 시 필요
+    implementation("org.apache.lucene:lucene-core:9.8.0")
+    implementation("org.apache.lucene:lucene-analysis-common:9.8.0")
+    implementation("org.apache.lucene:lucene-queryparser:9.8.0") // QueryParser 사용 시 필요
 }
 
 // Configure Gradle IntelliJ Plugin

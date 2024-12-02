@@ -1,4 +1,4 @@
-package com.emro.contributor;
+package com.emro.dictionary;
 
 import java.util.*;
 

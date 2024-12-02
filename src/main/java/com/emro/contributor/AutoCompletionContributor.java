@@ -1,5 +1,6 @@
 package com.emro.contributor;
 
+import com.emro.dictionary.LuceneManager;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
@@ -9,7 +10,6 @@ import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class AutoCompletionContributor extends CompletionContributor {
                         if (isKorean(inputText)) {
 	                        List<Map<String, Object>> completions = null;
 	                        try {
-		                        completions = LuceneManager.getInstance().search("ko", inputText);
+		                        completions = LuceneManager.getInstance().search("ko", inputText, "ngram");
 	                        } catch (Exception e) {
 		                        throw new RuntimeException(e);
 	                        }

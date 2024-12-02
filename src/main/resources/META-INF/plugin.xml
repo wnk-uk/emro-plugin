@@ -38,7 +38,7 @@
     <actions>
         <action id="MyTranslateAction" class="com.emro.converter.TranslateAction" text="Translate Text">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt U"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt e"/>
         </action>
     </actions>
 

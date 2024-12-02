@@ -1,8 +1,6 @@
-package com.emro.contributor;
+package com.emro.dictionary;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -15,7 +13,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.queryparser.classic.QueryParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,13 +26,13 @@ public class LuceneManager {
 
 	private final Directory directory;
 	private final Analyzer analyzer;
-	private IndexWriter writer;
+	private final IndexWriter writer;
 	private DirectoryReader reader;
 
 	// private 생성자 (싱글톤)
 	private LuceneManager() throws IOException {
 		this.directory = new ByteBuffersDirectory();
-		this.analyzer = new StandardAnalyzer();
+		this.analyzer = new NGramAnalyzer(1, 2);
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		this.writer = new IndexWriter(directory, config);
 	}
@@ -60,17 +57,21 @@ public class LuceneManager {
 	}
 
 	// 검색
-	public List<Map<String, Object>> search(String field, String queryText) throws Exception {
+	public List<Map<String, Object>> search(String field, String queryText, String type) throws Exception {
 		if (reader == null || !reader.isCurrent()) {
 			if (reader != null) reader.close();
 			reader = DirectoryReader.open(directory);
 		}
-
 		IndexSearcher searcher = new IndexSearcher(reader);
-		QueryParser queryParser = new QueryParser(field, analyzer);
-		Query query = queryParser.parse(queryText);
 
-		TopDocs results = searcher.search(query, 10);
+		Query query;
+		try {
+			query = DynamicAnalyzerSearch.createQuery(field, queryText, type);
+		} catch (Exception ex) {
+			throw new RuntimeException("쿼리 생성 실패: " + ex.getMessage(), ex);
+		}
+
+		TopDocs results = searcher.search(query, Integer.MAX_VALUE);
 		List<Map<String, Object>> searchResults = new ArrayList<>();
 
 		for (ScoreDoc scoreDoc : results.scoreDocs) {
@@ -95,6 +96,7 @@ public class LuceneManager {
 		}
 		directory.close();
 	}
+
 
 
 }

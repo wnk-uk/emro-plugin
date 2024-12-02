@@ -1,6 +1,6 @@
 package com.emro.emro.plugin
 
-import com.emro.model.DictionaryCacheService
+import com.emro.dictionary.DictionaryCacheService
 import com.intellij.openapi.application.ApplicationManager
 import com.emro.opener.ElementInfoReceiverService
 import com.intellij.openapi.project.DumbAware
