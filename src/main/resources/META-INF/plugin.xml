@@ -33,12 +33,17 @@
 	    <backgroundPostStartupActivity implementation="com.emro.emro.plugin.StartUpActivity"/>
         <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="any"/>
         <!--<typedHandler implementation="com.emro.contributor.KoreanTypedHandler"/>-->
+        <toolWindow id="WebViewTool" anchor="right" factoryClass="com.emro.register.WebViewToolFactory" canCloseContents="true" secondary="true"/>
     </extensions>
 
     <actions>
         <action id="MyTranslateAction" class="com.emro.converter.TranslateAction" text="Translate Text">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt e"/>
+        </action>
+        <action id="ShowWebViewToolAction" class="com.emro.register.RestoreWebViewAction" text="Show WebView Tool" description="Show the WebView Tool Window">
+            <add-to-group group-id="MainMenu.View" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt w"/>
         </action>
     </actions>
 
