@@ -49,7 +49,7 @@ public class TranslateAction extends AnAction {
     }
 
     private void showSearchResults(Map<String, Object> completion) {
-        showAlertForSelection((String) completion.get("ko"));
+        showAlertForSelection((String) completion.get("ko_KR"));
         // JList로 검색 결과 표시
 //        DefaultListModel<String> listModel = new DefaultListModel<>();
 //

@@ -31,14 +31,14 @@ public class AutoCompletionContributor extends CompletionContributor {
                         if (isKorean(inputText)) {
 	                        List<Map<String, Object>> completions = null;
 	                        try {
-		                        completions = LuceneManager.getInstance().search("ko", inputText, "ngram");
+		                        completions = LuceneManager.getInstance().search("ko_KR", inputText, "ngram");
 	                        } catch (Exception e) {
 		                        throw new RuntimeException(e);
 	                        }
 	                        for (Map<String, Object> completion : completions) {
-                                result.addElement(LookupElementBuilder.create((String) completion.get("ko"))
+                                result.addElement(LookupElementBuilder.create((String) completion.get("ko_KR"))
                                         .withTypeText((String) completion.get("source"), true)
-                                        .withTailText((String) "-" + completion.get("en"), true)
+                                        .withTailText((String) "-" + completion.get("en_US"), true)
                                         .withInsertHandler((con, item) -> {
                                             // 사용자가 선택했을 때 삽입될 텍스트
                                             int startOffset = con.getStartOffset();

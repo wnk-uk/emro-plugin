@@ -27,8 +27,6 @@ public final class ElementInfoReceiverService {
     private final HttpServer server;
 
     public ElementInfoReceiverService(Project project) throws IOException {
-        System.out.println("HTTP Server started on port 8081");
-
         this.project = project;
         this.server = HttpServer.create(new InetSocketAddress(8081), 0);
         this.server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool()); // 멀티스레드 지원

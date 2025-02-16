@@ -49,8 +49,10 @@ public class LuceneManager {
 	public void indexData(Map<String, Object> record) throws Exception {
 		Document doc = new Document();
 		doc.add(new TextField("key", record.get("key").toString(), Field.Store.YES));
-		doc.add(new TextField("en", record.get("en").toString(), Field.Store.YES));
-		doc.add(new TextField("ko", record.get("ko").toString(), Field.Store.YES));
+		if (record.containsKey("en_US")) doc.add(new TextField("en_US", record.get("en_US").toString(), Field.Store.YES));
+		else doc.add(new TextField("en_US", "Not Register", Field.Store.YES));
+		if (record.containsKey("ko_KR")) doc.add(new TextField("ko_KR", record.get("ko_KR").toString(), Field.Store.YES));
+		else doc.add(new TextField("ko_KR", "Not Register", Field.Store.YES));
 		doc.add(new TextField("source", record.get("source").toString(), Field.Store.YES));
 		writer.addDocument(doc);
 		writer.commit(); // 변경 사항 저장
@@ -78,8 +80,8 @@ public class LuceneManager {
 			Document doc = searcher.doc(scoreDoc.doc);
 			searchResults.add(Map.of(
 					"key", doc.get("key"),
-					"en", doc.get("en"),
-					"ko", doc.get("ko"),
+					"en_US", doc.get("en_US"),
+					"ko_KR", doc.get("ko_KR"),
 					"source", doc.get("source")
 			));
 		}
