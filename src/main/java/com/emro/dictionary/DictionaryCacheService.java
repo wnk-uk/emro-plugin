@@ -28,7 +28,6 @@ public final class DictionaryCacheService {
         for (Map.Entry<String, Map<String, Object>> entry : dictionary.entrySet()) {
             Map<String, Object> metadata = entry.getValue();
             metadata.put("key", entry.getKey());
-            //trie.insert((String) metadata.get("ko"), metadata);
 	        LuceneManager.getInstance().indexData(metadata);
         }
     }

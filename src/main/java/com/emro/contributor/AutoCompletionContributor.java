@@ -52,39 +52,30 @@ public class AutoCompletionContributor extends CompletionContributor {
                             result.restartCompletionWhenNothingMatches();
                         } else {
                             // 부모 요소가 특정 태그인지 검사
-                            XmlTag tag = findParentTag(element);
-                            System.out.println(tag.getName());
-                            if (tag != null) {
-                                if (file.getName().endsWith(".html")) {
-                                    // 추천 키워드 추가
-                                    if (tag != null && "sc-label".equals(tag.getName())) {
-                                        result.addElement(LookupElementBuilder.create("data-example")
-                                                .withTypeText("HTML Attribute", true)
-                                                .withTailText(" - Example attribute", true));
-                                        result.addElement(LookupElementBuilder.create("custom-attribute")
-                                                .withTypeText("HTML Attribute", true)
-                                                .withTailText(" - Custom attribute", true));
-                                    }
-                                }
-                            } else {
-                                // 태그가 없는 상태에서 '<' 다음에 위치한 경우
-                                String textBeforeCursor = element.getTextOffset() > 0
-                                        ? file.getText().substring(element.getTextOffset() - 1, element.getTextOffset())
-                                        : "";
+                            if (file.getName().endsWith(".java")) {
 
-                                if ("<".equals(textBeforeCursor)) {
-                                    // 추천할 태그 목록
-                                    result.addElement(LookupElementBuilder.create("sc-labal")
-                                            .withTypeText("Custom HTML Tag", true)
-                                            .withTailText(" - A custom component", true));
-                                    result.addElement(LookupElementBuilder.create("sc-grid")
-                                            .withTypeText("Custom HTML Tag", true)
-                                            .withTailText(" - A custom web component", true));
-                                    result.addElement(LookupElementBuilder.create("sc-text-field")
-                                            .withTypeText("Custom HTML Tag", true)
-                                            .withTailText(" - A widget container", true));
-                                }
+                            } else if (file.getName().endsWith(".html")){
+
                             }
+//                            else {
+//                                // 태그가 없는 상태에서 '<' 다음에 위치한 경우
+//                                String textBeforeCursor = element.getTextOffset() > 0
+//                                        ? file.getText().substring(element.getTextOffset() - 1, element.getTextOffset())
+//                                        : "";
+//
+//                                if ("<".equals(textBeforeCursor)) {
+//                                    // 추천할 태그 목록
+//                                    result.addElement(LookupElementBuilder.create("sc-labal")
+//                                            .withTypeText("Custom HTML Tag", true)
+//                                            .withTailText(" - A custom component", true));
+//                                    result.addElement(LookupElementBuilder.create("sc-grid")
+//                                            .withTypeText("Custom HTML Tag", true)
+//                                            .withTailText(" - A custom web component", true));
+//                                    result.addElement(LookupElementBuilder.create("sc-text-field")
+//                                            .withTypeText("Custom HTML Tag", true)
+//                                            .withTailText(" - A widget container", true));
+//                                }
+//                            }
                         }
                     }
                 });
