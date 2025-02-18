@@ -65,7 +65,7 @@ public final class DictionaryCacheService {
 
         PluginSettingsState state = PluginSettingsState.getInstance(project);
         if (!"".equals(state.languageFilePath)) {
-            try (InputStream inputStream = new FileInputStream(state.languageFilePath + fileName)){
+            try (InputStream inputStream = new FileInputStream(state.languageFilePath + File.separator + fileName)){
                 // JSON 파싱
                 InputStreamReader reader = new InputStreamReader(inputStream);
                 Type type = new TypeToken<Map<String, Map<String, String>>>() {}.getType();

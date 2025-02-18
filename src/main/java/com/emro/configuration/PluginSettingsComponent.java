@@ -1,76 +1,65 @@
 package com.emro.configuration;
+
+import com.intellij.openapi.fileChooser.FileChooser;
+import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.components.JBLabel;
+import com.intellij.ui.components.JBTextField;
+import com.intellij.util.ui.FormBuilder;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 public class PluginSettingsComponent {
     private JPanel panel;
-    private JTextField syncServiceUrlField;
-    private JTextField languageFilePathField;
+	private JBTextField languageFilePathField;
+    private JBTextField syncServiceUrlField;
 
-    private JButton startDirectoryButton;
-    private JButton environmentVariablesButton;
 
 
     public PluginSettingsComponent() {
-        panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.weightx = 1.0;
+	    languageFilePathField = new JBTextField();
+	    languageFilePathField.setEditable(false);
+	    syncServiceUrlField = new JBTextField();
 
-//        panel.add(new JLabel("Dictionary Sync Service URL:"));
-//        syncServiceUrlField = new JTextField();
-//        panel.add(syncServiceUrlField);
-//
-//        panel.add(new JLabel("Dictionary File Path:"));
-//        languageFilePathField = new JTextField();
-//        panel.add(languageFilePathField);
+	    // 파일 선택 버튼
+	    JButton fileChooserButton = new JButton("📂");
+	    fileChooserButton.addActionListener(e -> chooseDirectory(languageFilePathField));
 
+	    // 설명 레이블
+	    JBLabel descriptionLabel = new JBLabel("Dictionary directory path에 존재하는 jsonFile을 메모리에 캐시합니다.");
+	    descriptionLabel.setForeground(Color.GRAY);
 
-        // 📂 Start Directory (비활성화된 입력 필드 + 폴더 선택 버튼)
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(new JLabel("Start directory:"), gbc);
-
-        gbc.gridx = 1;
-        languageFilePathField = new JTextField("C:\\study\\test-pro");
-        languageFilePathField.setEditable(false);
-        panel.add(languageFilePathField, gbc);
-
-        gbc.gridx = 2;
-        startDirectoryButton = new JButton("\uD83D\uDCC1"); // 📁 아이콘 대신 사용할 수 있음
-        startDirectoryButton.setPreferredSize(new Dimension(40, 25));
-        panel.add(startDirectoryButton, gbc);
-
-        // 🌍 Environment Variables (입력 필드 + 설정 버튼)
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(new JLabel("Environment variables:"), gbc);
-
-        gbc.gridx = 1;
-        syncServiceUrlField = new JTextField();
-        panel.add(syncServiceUrlField, gbc);
-
-        gbc.gridx = 2;
-        // 📂 Start Directory 선택 버튼 동작 추가
-        startDirectoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                int result = fileChooser.showOpenDialog(panel);
-
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFolder = fileChooser.getSelectedFile();
-                    languageFilePathField.setText(selectedFolder.getAbsolutePath());
-                }
-            }
-        });
-
+	    // UI 배치 (FormBuilder 활용)
+	    panel = FormBuilder.createFormBuilder()
+			    .addLabeledComponent("Dictionary directory path:", createFileChooserPanel(languageFilePathField, fileChooserButton))
+			    .addComponent(descriptionLabel)
+			    .addLabeledComponent("Dictionary sync url:", syncServiceUrlField)
+			    .addComponentFillVertically(new JPanel(), 0)
+			    .getPanel();
     }
+
+	// 디렉터리 선택기
+	private void chooseDirectory(JBTextField targetField) {
+		FileChooserDescriptor descriptor = new FileChooserDescriptor(false, true, false, false, false, false);
+		descriptor.setTitle("Starting directory");
+		descriptor.setDescription("Select a directory");
+		descriptor.setShowFileSystemRoots(true);
+
+		VirtualFile file = FileChooser.chooseFile(descriptor, null, null);
+		if (file != null) {
+			targetField.setText(file.getPath());
+		}
+	}
+
+	// 파일 선택 버튼이 포함된 패널
+	private JPanel createFileChooserPanel(JBTextField textField, JButton button) {
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(textField, BorderLayout.CENTER);
+		panel.add(button, BorderLayout.EAST);
+		return panel;
+	}
 
     public JPanel getPanel() {
         return panel;
