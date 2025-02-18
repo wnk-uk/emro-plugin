@@ -16,8 +16,6 @@ public class PluginSettingsComponent {
 	private JBTextField languageFilePathField;
     private JBTextField syncServiceUrlField;
 
-
-
     public PluginSettingsComponent() {
 	    languageFilePathField = new JBTextField();
 	    languageFilePathField.setEditable(false);
