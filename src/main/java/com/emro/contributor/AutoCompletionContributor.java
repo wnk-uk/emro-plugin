@@ -1,6 +1,7 @@
 package com.emro.contributor;
 
 import com.emro.dictionary.LuceneManager;
+import com.emro.dictionary.LuceneManagerGlo;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
@@ -33,28 +34,57 @@ public class AutoCompletionContributor extends CompletionContributor {
 	                        try {
 		                        completions = LuceneManager.getInstance().search("ko_KR", inputText, "ngram");
 	                        } catch (Exception e) {
-		                        throw new RuntimeException(e);
+                                return;
 	                        }
+
 	                        for (Map<String, Object> completion : completions) {
-                                result.addElement(LookupElementBuilder.create((String) completion.get("ko_KR"))
-                                        .withTypeText((String) completion.get("source"), true)
-                                        .withTailText((String) "-" + completion.get("en_US"), true)
-                                        .withInsertHandler((con, item) -> {
-                                            // 사용자가 선택했을 때 삽입될 텍스트
-                                            int startOffset = con.getStartOffset();
-                                            int tailOffset = con.getTailOffset();
-                                            con.getDocument().replaceString(startOffset, tailOffset, (String) completion.get("key"));
-                                        }));
+                                result.addElement(
+                                        PrioritizedLookupElement.withPriority(
+                                                LookupElementBuilder.create((String) completion.get("ko_KR") + "(" + completion.get("source") + ")")
+                                                        .withTypeText((String) completion.get("source"), true)
+                                                        .withTailText((String) "-" + completion.get("en_US"), true)
+                                                        .withInsertHandler((con, item) -> {
+                                                            // 사용자가 선택했을 때 삽입될 텍스트
+                                                            int startOffset = con.getStartOffset();
+                                                            int tailOffset = con.getTailOffset();
+                                                            String hitsText = (String) completion.get("key");
+                                                            if ("용어집".equals(completion.get("source"))) hitsText = (String) completion.get("en_US");
+                                                            con.getDocument().replaceString(startOffset, tailOffset, hitsText);
+                                                        }),-99999)
+                                );
                             }
 
                             // 강제로 자동 트리거
                             result.restartCompletionOnAnyPrefixChange();
                             result.restartCompletionWhenNothingMatches();
                         } else {
+                            List<Map<String, Object>> completions = null;
+                            try {
+                                completions = LuceneManager.getInstance().search("en_US", inputText, "ngram");
+                            } catch (Exception e) {
+                                return;
+                            }
+                            for (Map<String, Object> completion : completions) {
+                                result.addElement(
+                                        PrioritizedLookupElement.withPriority(
+                                                LookupElementBuilder.create((String) completion.get("ko_KR") + "(" + completion.get("source") + ")")
+                                                        .withTypeText((String) completion.get("source"), true)
+                                                        .withTailText((String) "-" + completion.get("en_US"), true)
+                                                        .withInsertHandler((con, item) -> {
+                                                            // 사용자가 선택했을 때 삽입될 텍스트
+                                                            int startOffset = con.getStartOffset();
+                                                            int tailOffset = con.getTailOffset();
+                                                            String hitsText = (String) completion.get("key");
+                                                            if ("용어집".equals(completion.get("source"))) hitsText = (String) completion.get("en_US");
+                                                            con.getDocument().replaceString(startOffset, tailOffset, hitsText);
+                                                        }),-99999)
+                                );
+                            }
+
                             // 부모 요소가 특정 태그인지 검사
                             if (file.getName().endsWith(".java")) {
 
-                            } else if (file.getName().endsWith(".html")){
+                            } else if (file.getName().endsWith(".html")) {
 
                             }
 //                            else {

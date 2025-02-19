@@ -27,6 +27,7 @@ public final class DictionaryCacheService {
 
     private final Project project;
     private static Map<String, Map<String, Object>> dictionary;
+    private static Map<String, Map<String, Object>> glossary;
 
     public DictionaryCacheService(Project project) throws Exception {
         this.project = project;
@@ -41,7 +42,7 @@ public final class DictionaryCacheService {
 	                  // Dictionary 동기화 실행
 	                  DictionaryCacheService service = project.getService(DictionaryCacheService.class);
 	                  if (service != null) {
-	                      service.sync();
+	                      service.sync(false);
 	                  }
 
 	                  // 진행률 업데이트 (예제용 대기 시간 추가)
@@ -66,11 +67,14 @@ public final class DictionaryCacheService {
       });
     }
 
-    public synchronized void sync() {
+    public synchronized void sync(boolean isLoad) {
         try {
-	        if (dictionary == null) {
+	        if (dictionary == null || isLoad) {
 		        dictionary = loadJsonFile("dic.json");
 	        }
+            if (glossary == null || isLoad) {
+                glossary = loadJsonFile("glo.json");
+            }
 
             // 데이터 삽입 및 Lucene 색인 갱신
             for (Map.Entry<String, Map<String, Object>> entry : dictionary.entrySet()) {
@@ -78,6 +82,13 @@ public final class DictionaryCacheService {
                 metadata.put("key", entry.getKey());
                 LuceneManager.getInstance().indexData(metadata);
             }
+
+            for (Map.Entry<String, Map<String, Object>> entry : glossary.entrySet()) {
+                Map<String, Object> metadata = entry.getValue();
+                metadata.put("key", entry.getKey());
+                LuceneManager.getInstance().indexData(metadata);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("Error syncing dictionary", e);
         }

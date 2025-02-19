@@ -31,7 +31,7 @@ public class SyncDictionaryAction extends AnAction {
                     // Dictionary 동기화 실행
                     DictionaryCacheService service = project.getService(DictionaryCacheService.class);
                     if (service != null) {
-                        service.sync();
+                        service.sync(true);
                     }
 
                     // 진행률 업데이트 (예제용 대기 시간 추가)
