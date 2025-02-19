@@ -3,6 +3,7 @@ package com.emro.configuration;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
@@ -26,8 +27,8 @@ public class PluginSettingsComponent {
 	    fileChooserButton.addActionListener(e -> chooseDirectory(languageFilePathField));
 
 	    // 설명 레이블
-	    JBLabel descriptionLabel = new JBLabel("Dictionary directory path에 존재하는 jsonFile을 메모리에 캐시합니다.");
-	    descriptionLabel.setForeground(Color.GRAY);
+	    JBLabel descriptionLabel = new JBLabel("다국어 파일 경로에 존재하는 json 파일을 메모리에 캐시합니다. (dic.json/glo.json)");
+	    descriptionLabel.setForeground(JBColor.GRAY);
 
 	    // UI 배치 (FormBuilder 활용)
 	    panel = FormBuilder.createFormBuilder()
@@ -41,7 +42,7 @@ public class PluginSettingsComponent {
 	// 디렉터리 선택기
 	private void chooseDirectory(JBTextField targetField) {
 		FileChooserDescriptor descriptor = new FileChooserDescriptor(false, true, false, false, false, false);
-		descriptor.setTitle("Starting directory");
+		descriptor.setTitle("Starting Directory");
 		descriptor.setDescription("Select a directory");
 		descriptor.setShowFileSystemRoots(true);
 
