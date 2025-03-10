@@ -16,11 +16,13 @@ public class PluginSettingsComponent {
     private JPanel panel;
 	private JBTextField languageFilePathField;
     private JBTextField syncServiceUrlField;
+	private JBTextField tokenField;
 
     public PluginSettingsComponent() {
 	    languageFilePathField = new JBTextField();
 	    languageFilePathField.setEditable(false);
 	    syncServiceUrlField = new JBTextField();
+	    tokenField = new JBTextField();
 
 	    // 파일 선택 버튼
 	    JButton fileChooserButton = new JButton("📂");
@@ -30,11 +32,17 @@ public class PluginSettingsComponent {
 	    JBLabel descriptionLabel = new JBLabel("다국어 파일 경로에 존재하는 json 파일을 메모리에 캐시합니다. (dic.json/glo.json)");
 	    descriptionLabel.setForeground(JBColor.GRAY);
 
+	    JBLabel tokenDescriptionLabel = new JBLabel("관리자에게 인증토큰을 발급받아 기입합니다.");
+	    tokenDescriptionLabel.setForeground(JBColor.GRAY);
+
 	    // UI 배치 (FormBuilder 활용)
 	    panel = FormBuilder.createFormBuilder()
 			    .addLabeledComponent("Dictionary directory path:", createFileChooserPanel(languageFilePathField, fileChooserButton))
 			    .addComponent(descriptionLabel)
 			    .addLabeledComponent("Dictionary sync url:", syncServiceUrlField)
+//			    .addComponentFillVertically(new JPanel(), 0)
+			    .addLabeledComponent("Authorization token:", tokenField)
+			    .addComponent(tokenDescriptionLabel)
 			    .addComponentFillVertically(new JPanel(), 0)
 			    .getPanel();
     }
@@ -79,4 +87,10 @@ public class PluginSettingsComponent {
     public void setLanguageFilePath(String path) {
         languageFilePathField.setText(path);
     }
+
+	public void setTokenField(String path) {
+		tokenField.setText(path);
+	}
+
+	public String getTokenField() { return tokenField.getText(); }
 }

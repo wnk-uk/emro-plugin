@@ -40,15 +40,16 @@ public class AutoCompletionContributor extends CompletionContributor {
 	                        for (Map<String, Object> completion : completions) {
                                 result.addElement(
                                         PrioritizedLookupElement.withPriority(
-                                                LookupElementBuilder.create((String) completion.get("ko_KR") + "(" + completion.get("source") + ")")
-                                                        .withTypeText((String) completion.get("source"), true)
-                                                        .withTailText((String) "-" + completion.get("en_US"), true)
+                                                LookupElementBuilder.create((String) completion.get("key") + " (" + completion.get("source") + ")")
+		                                                .withLookupString((String) completion.get("ko_KR"))
+                                                        .withTailText((String) "-" + completion.get("en_US") + "/" +  completion.get("ko_KR"), true)
+		                                                .withTypeText((String) completion.get("source"), true)
                                                         .withInsertHandler((con, item) -> {
                                                             // 사용자가 선택했을 때 삽입될 텍스트
                                                             int startOffset = con.getStartOffset();
                                                             int tailOffset = con.getTailOffset();
                                                             String hitsText = (String) completion.get("key");
-                                                            if ("용어집".equals(completion.get("source"))) hitsText = (String) completion.get("en_US");
+//                                                            if ("용어집".equals(completion.get("source"))) hitsText = (String) completion.get("en_US");
                                                             con.getDocument().replaceString(startOffset, tailOffset, hitsText);
                                                         }),-99999)
                                 );
@@ -58,24 +59,31 @@ public class AutoCompletionContributor extends CompletionContributor {
                             result.restartCompletionOnAnyPrefixChange();
                             result.restartCompletionWhenNothingMatches();
                         } else {
+
+							if (inputText.length() <= 1) return;
+
                             List<Map<String, Object>> completions = null;
                             try {
-                                completions = LuceneManager.getInstance().search("en_US", inputText, "ngram");
+                                completions = LuceneManager.getInstance().search("en_US", inputText, "ngram2");
+	                            completions.addAll(LuceneManager.getInstance().search("key", inputText, "ngram2"));
                             } catch (Exception e) {
                                 return;
                             }
                             for (Map<String, Object> completion : completions) {
                                 result.addElement(
                                         PrioritizedLookupElement.withPriority(
-                                                LookupElementBuilder.create((String) completion.get("ko_KR") + "(" + completion.get("source") + ")")
+                                                LookupElementBuilder.create((String) completion.get("key") + " (" + completion.get("source") + ")")
+		                                                .withLookupString((String) completion.get("en_US"))
+		                                                .withLookupString(((String) completion.get("en_US")).toLowerCase())
+		                                                .withLookupString(((String) completion.get("key")))
+		                                                .withTailText((String) "-" + completion.get("en_US") + "/" +  completion.get("ko_KR"), true)
                                                         .withTypeText((String) completion.get("source"), true)
-                                                        .withTailText((String) "-" + completion.get("en_US"), true)
                                                         .withInsertHandler((con, item) -> {
                                                             // 사용자가 선택했을 때 삽입될 텍스트
                                                             int startOffset = con.getStartOffset();
                                                             int tailOffset = con.getTailOffset();
                                                             String hitsText = (String) completion.get("key");
-                                                            if ("용어집".equals(completion.get("source"))) hitsText = (String) completion.get("en_US");
+//                                                            if ("용어집".equals(completion.get("source"))) hitsText = (String) completion.get("en_US");
                                                             con.getDocument().replaceString(startOffset, tailOffset, hitsText);
                                                         }),-99999)
                                 );

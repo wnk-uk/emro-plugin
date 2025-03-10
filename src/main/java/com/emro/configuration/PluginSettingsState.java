@@ -12,6 +12,7 @@ public final class PluginSettingsState implements PersistentStateComponent<Plugi
 
     public String syncServiceUrl = ""; // 기본 URL
     public String languageFilePath = ""; // 기본 저장 경로
+	public String tokenPath = ""; // 기본 저장 경로
 
     public static PluginSettingsState getInstance(Project project) {
         return project.getService(PluginSettingsState.class);
@@ -26,5 +27,6 @@ public final class PluginSettingsState implements PersistentStateComponent<Plugi
     public void loadState(PluginSettingsState state) {
         this.syncServiceUrl = state.syncServiceUrl;
         this.languageFilePath = state.languageFilePath;
+		this.tokenPath = state.tokenPath;
     }
 }

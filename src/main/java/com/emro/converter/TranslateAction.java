@@ -35,12 +35,12 @@ public class TranslateAction extends AnAction {
             try {
                 //completions = LuceneManager.getInstance().search("key", selectedText, "keyword");
                 completion = DictionaryCacheService.getDictionary().getOrDefault(selectedText, null);
-
+	            if (completion == null || completion.isEmpty()) completion = DictionaryCacheService.getGlossary().getOrDefault(selectedText, null);
                 if (completion != null && !completion.isEmpty()) {
                     // 검색 결과를 창에 표시
                     showSearchResults(completion);
                 } else {
-                    Messages.showInfoMessage("검색 결과가 없습니다.", "결과 없음");
+                    Messages.showInfoMessage("Not searched.", "Not Result");
                 }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);

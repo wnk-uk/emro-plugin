@@ -98,6 +98,10 @@ public final class DictionaryCacheService {
         return dictionary;
     }
 
+	public static Map<String, Map<String, Object>> getGlossary() {
+		return glossary;
+	}
+
     // JSON 파일 로드
     private static Map<String, Map<String, Object>> loadJsonFile(String fileName) {
         Project project = ProjectUtils.getCurrentProject();

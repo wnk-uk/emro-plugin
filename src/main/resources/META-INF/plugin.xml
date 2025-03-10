@@ -30,7 +30,7 @@
         <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="any"/>
         <toolWindow id="WebViewTool" anchor="right" factoryClass="com.emro.register.WebViewToolFactory" canCloseContents="true" secondary="true"/>
         <notificationGroup id="DictionarySyncNotification" displayType="BALLOON" />
-        <applicationConfigurable id="EmroPluginSettings" displayName="Emro Plugin Settings" groupId="other" instance="com.emro.configuration.PluginSettingsConfigurable"/>
+        <applicationConfigurable id="EmroPluginSettings" displayName="Caidentia Plugin Settings" groupId="other" instance="com.emro.configuration.PluginSettingsConfigurable"/>
     </extensions>
 
     <actions>
@@ -38,7 +38,7 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt e"/>
         </action>
-            <action id="com.emro.dictionary.SyncDictionaryAction" class="com.emro.dictionary.SyncDictionaryAction" text="Sync Dictionary" description="Synchronize the dictionary JSON data">
+            <action id="com.emro.dictionary.SyncDictionaryAction" class="com.emro.dictionary.SyncDictionaryAction" text="Sync MultiLanguage" description="Synchronize the dictionary JSON data">
                 <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             </action>
         <action id="ShowWebViewToolAction" class="com.emro.register.RestoreWebViewAction" text="Show WebView Tool" description="Show the WebView Tool Window">

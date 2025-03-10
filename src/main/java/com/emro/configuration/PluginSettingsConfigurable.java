@@ -26,6 +26,7 @@ public class PluginSettingsConfigurable implements Configurable {
             PluginSettingsState state = PluginSettingsState.getInstance(project);
             settingsComponent.setSyncServiceUrl(state.syncServiceUrl);
             settingsComponent.setLanguageFilePath(state.languageFilePath);
+			settingsComponent.setTokenField(state.tokenPath);
         }
 
         return settingsComponent.getPanel();
@@ -40,7 +41,8 @@ public class PluginSettingsConfigurable implements Configurable {
 
         PluginSettingsState state = PluginSettingsState.getInstance(project);
         return !settingsComponent.getSyncServiceUrl().equals(state.syncServiceUrl) ||
-                !settingsComponent.getLanguageFilePath().equals(state.languageFilePath);
+               !settingsComponent.getLanguageFilePath().equals(state.languageFilePath) ||
+               !settingsComponent.getLanguageFilePath().equals(state.tokenPath);
     }
 
     @Override
@@ -53,6 +55,8 @@ public class PluginSettingsConfigurable implements Configurable {
         PluginSettingsState state = PluginSettingsState.getInstance(project);
         state.syncServiceUrl = settingsComponent.getSyncServiceUrl();
         state.languageFilePath = settingsComponent.getLanguageFilePath();
+	    state.tokenPath = settingsComponent.getTokenField();
+
     }
 
     @Override
@@ -65,6 +69,7 @@ public class PluginSettingsConfigurable implements Configurable {
         PluginSettingsState state = PluginSettingsState.getInstance(project);
         settingsComponent.setSyncServiceUrl(state.syncServiceUrl);
         settingsComponent.setLanguageFilePath(state.languageFilePath);
+	    settingsComponent.setTokenField(state.tokenPath);
     }
 
     @Override

@@ -23,6 +23,7 @@ public class DynamicAnalyzerSearch {
         analyzers.put("keyword", new KeywordAnalyzer());
         analyzers.put("standard", new StandardAnalyzer());
         analyzers.put("ngram", new NGramAnalyzer(1, 2));
+	    analyzers.put("ngram2", new NGramAnalyzer(2, 3));
     }
 
     // 특정 Analyzer로 검색
