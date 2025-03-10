@@ -14,7 +14,7 @@ public class PluginSettingsConfigurable implements Configurable {
 
     @Override
     public @Nls(capitalization = Nls.Capitalization.Title) String getDisplayName() {
-        return "Emro Plugin Settings";
+        return "Caidentia Plugin Settings";
     }
 
     @Override

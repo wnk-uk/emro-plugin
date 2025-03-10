@@ -17,7 +17,7 @@ public class WebViewToolFactory implements ToolWindowFactory {
 
     public static void addWebViewContent(@NotNull ToolWindow toolWindow) {
         // WebView 콘텐츠 생성
-        JBCefBrowser browser = new JBCefBrowser("https://www.naver.com");
+        JBCefBrowser browser = new JBCefBrowser("http://localhost:9090");
         ContentFactory contentFactory = ContentFactory.getInstance();
         Content content = contentFactory.createContent(browser.getComponent(), "Web Viewer", false);
 
