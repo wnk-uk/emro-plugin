@@ -22,7 +22,10 @@ public class RestoreWebViewAction extends AnAction {
                 if (contentManager.getContentCount() == 0) {
                     WebViewToolFactory.addWebViewContent(toolWindow, state.syncServiceUrl); // 콘텐츠 다시 추가
                 }
-                if (toolWindow.isVisible()) toolWindow.hide();
+                if (toolWindow.isVisible()) {
+					toolWindow.hide();
+	                contentManager.removeAllContents(true);
+                }
                 else toolWindow.show();
             }
         }
