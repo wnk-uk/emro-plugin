@@ -1,5 +1,6 @@
 package com.emro.register;
 
+import com.emro.configuration.PluginSettingsState;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -12,12 +13,14 @@ public class WebViewToolFactory implements ToolWindowFactory {
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        addWebViewContent(toolWindow);
+	    PluginSettingsState state = PluginSettingsState.getInstance(project);
+        addWebViewContent(toolWindow, state.syncServiceUrl);
     }
 
-    public static void addWebViewContent(@NotNull ToolWindow toolWindow) {
+    public static void addWebViewContent(@NotNull ToolWindow toolWindow, @NotNull String syncServiceUrl) {
+
         // WebView 콘텐츠 생성
-        JBCefBrowser browser = new JBCefBrowser("http://localhost:9090");
+        JBCefBrowser browser = new JBCefBrowser(syncServiceUrl);
         ContentFactory contentFactory = ContentFactory.getInstance();
         Content content = contentFactory.createContent(browser.getComponent(), "Web Viewer", false);
 
