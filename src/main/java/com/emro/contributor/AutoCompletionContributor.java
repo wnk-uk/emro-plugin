@@ -4,6 +4,7 @@ import com.emro.dictionary.LuceneManager;
 import com.emro.dictionary.LuceneManagerGlo;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -26,8 +27,14 @@ public class AutoCompletionContributor extends CompletionContributor {
                         PsiFile file = parameters.getOriginalFile();
                         PsiElement element = parameters.getPosition();
 
-                        // 현재 입력값 가져오기
-                        String inputText = getInputText(parameters);
+
+	                    SelectionModel selectionModel = parameters.getEditor().getSelectionModel();
+	                    String inputText = selectionModel.getSelectedText() != null ? selectionModel.getSelectedText() : "";
+
+		                if (inputText.isEmpty()) {
+			                inputText = getInputText(parameters);
+		                }
+
 
                         if (isKorean(inputText)) {
 	                        List<Map<String, Object>> completions = null;
@@ -56,8 +63,8 @@ public class AutoCompletionContributor extends CompletionContributor {
                             }
 
                             // 강제로 자동 트리거
-                            result.restartCompletionOnAnyPrefixChange();
-                            result.restartCompletionWhenNothingMatches();
+//                            result.restartCompletionOnAnyPrefixChange();
+//                            result.restartCompletionWhenNothingMatches();
                         } else {
 
 							if (inputText.length() <= 1) return;
@@ -69,7 +76,9 @@ public class AutoCompletionContributor extends CompletionContributor {
                             } catch (Exception e) {
                                 return;
                             }
+	                        int i = -1000;
                             for (Map<String, Object> completion : completions) {
+								i--;
                                 result.addElement(
                                         PrioritizedLookupElement.withPriority(
                                                 LookupElementBuilder.create((String) completion.get("key") + " (" + completion.get("source") + ")")

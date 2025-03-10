@@ -7,6 +7,9 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.jcef.JBCefBrowser;
+import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
+import org.cef.handler.CefLoadHandlerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class WebViewToolFactory implements ToolWindowFactory {
@@ -20,8 +23,20 @@ public class WebViewToolFactory implements ToolWindowFactory {
     public static void addWebViewContent(@NotNull ToolWindow toolWindow, @NotNull String syncServiceUrl) {
 
         // WebView 콘텐츠 생성
-        JBCefBrowser browser = new JBCefBrowser(syncServiceUrl);
-        ContentFactory contentFactory = ContentFactory.getInstance();
+        JBCefBrowser browser = new JBCefBrowser(syncServiceUrl + "/ssoLogin");
+	    browser.getJBCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
+		    @Override
+		    public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int httpStatusCode) {
+			    cefBrowser.executeJavaScript(
+					    "document.getElementById('langList')?.click();",
+					    cefBrowser.getURL(),
+					    0
+			    );
+		    }
+	    }, browser.getCefBrowser());
+
+
+	    ContentFactory contentFactory = ContentFactory.getInstance();
         Content content = contentFactory.createContent(browser.getComponent(), "Web Viewer", false);
 
         // Tool Window에 콘텐츠 추가
