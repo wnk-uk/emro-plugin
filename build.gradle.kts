@@ -21,7 +21,7 @@ dependencies {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.2.8")
+    version.set("2023.3.2")
     type.set("IU") // Target IDE Platform
     plugins.set(listOf("java"))
 }
@@ -57,7 +57,9 @@ tasks {
             "-XX:ReservedCodeCacheSize=512m",
             "-XX:+UseG1GC",
             "-Didea.debug.mode=true",
-            "-Djava.net.preferIPv4Stack=true"
+            "-Djava.net.preferIPv4Stack=true",
+            "-Dsun.awt.enableInputMethod=true",
+            "-Djavafx.embed.singleThread=true"
         )
     }
 
@@ -67,7 +69,9 @@ tasks {
             "-XX:ReservedCodeCacheSize=512m",
             "-XX:+UseG1GC",
             "-Didea.debug.mode=true",
-            "-Djava.net.preferIPv4Stack=true"
+            "-Djava.net.preferIPv4Stack=true",
+            "-Dsun.awt.enableInputMethod=true",
+            "-Djavafx.embed.singleThread=true"
         )
     }
 }

@@ -12,7 +12,10 @@ import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class WebViewToolFactory implements ToolWindowFactory {
+	static AtomicBoolean clickedOnce = new AtomicBoolean(false);
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
@@ -24,14 +27,18 @@ public class WebViewToolFactory implements ToolWindowFactory {
 
         // WebView 콘텐츠 생성
         JBCefBrowser browser = new JBCefBrowser(syncServiceUrl + "/ssoLogin");
+	    clickedOnce.set(false);
 	    browser.getJBCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
 		    @Override
 		    public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int httpStatusCode) {
-			    cefBrowser.executeJavaScript(
-					    "document.getElementById('langList')?.click();",
-					    cefBrowser.getURL(),
-					    0
-			    );
+			    if(!clickedOnce.get()) {
+				    cefBrowser.executeJavaScript(
+						    "document.getElementById('langList')?.click();",
+						    cefBrowser.getURL(),
+						    0
+				    );
+			    }
+			    clickedOnce.set(true);
 		    }
 	    }, browser.getCefBrowser());
 
