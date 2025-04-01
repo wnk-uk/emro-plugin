@@ -49,7 +49,7 @@ public class TranslateAction extends AnAction {
     }
 
     private void showSearchResults(Map<String, Object> completion) {
-        showAlertForSelection((String) completion.get("ko_KR"));
+        showAlertForSelection((String) completion.get("ko_KR"), (String) completion.get("en_US"));
         // JList로 검색 결과 표시
 //        DefaultListModel<String> listModel = new DefaultListModel<>();
 //
@@ -80,7 +80,7 @@ public class TranslateAction extends AnAction {
 //        frame.setVisible(true);
     }
 
-    private void showAlertForSelection(String selectedValue) {
-        Messages.showInfoMessage("Translation : " + selectedValue, "Information");
+    private void showAlertForSelection(String kor, String en) {
+        Messages.showInfoMessage("ko_KR: " + kor + "\n" + "en_US: " + en, "Information");
     }
 }

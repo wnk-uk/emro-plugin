@@ -23,6 +23,7 @@ public class PluginSettingsComponent {
 	    languageFilePathField.setEditable(false);
 	    syncServiceUrlField = new JBTextField();
 	    tokenField = new JBTextField();
+	    tokenField.setColumns(50);
 
 	    // 파일 선택 버튼
 	    JButton fileChooserButton = new JButton("📂");
@@ -45,6 +46,7 @@ public class PluginSettingsComponent {
 			    .addComponent(tokenDescriptionLabel)
 			    .addComponentFillVertically(new JPanel(), 0)
 			    .getPanel();
+
     }
 
 	// 디렉터리 선택기
