@@ -35,7 +35,6 @@ public class AutoCompletionContributor extends CompletionContributor {
 			                inputText = getInputText(parameters);
 		                }
 
-
                         if (isKorean(inputText)) {
 	                        List<Map<String, Object>> completions = null;
 	                        try {
@@ -43,12 +42,10 @@ public class AutoCompletionContributor extends CompletionContributor {
 	                        } catch (Exception e) {
                                 return;
 	                        }
-
 	                        for (Map<String, Object> completion : completions) {
                                 result.addElement(
                                         PrioritizedLookupElement.withPriority(
-                                                LookupElementBuilder.create((String) completion.get("key") + " (" + completion.get("source") + ")")
-		                                                .withLookupString((String) completion.get("ko_KR"))
+                                                LookupElementBuilder.create((String) completion.get("ko_KR"))
                                                         .withTailText((String) "-" + completion.get("en_US") + "/" +  completion.get("ko_KR"), true)
 		                                                .withTypeText((String) completion.get("source"), true)
                                                         .withInsertHandler((con, item) -> {
@@ -61,12 +58,10 @@ public class AutoCompletionContributor extends CompletionContributor {
                                                         }),-99999)
                                 );
                             }
-
                             // 강제로 자동 트리거
 //                            result.restartCompletionOnAnyPrefixChange();
 //                            result.restartCompletionWhenNothingMatches();
                         } else {
-
 							if (inputText.length() <= 1) return;
 
                             List<Map<String, Object>> completions = null;
@@ -81,10 +76,10 @@ public class AutoCompletionContributor extends CompletionContributor {
 								i--;
                                 result.addElement(
                                         PrioritizedLookupElement.withPriority(
-                                                LookupElementBuilder.create((String) completion.get("key") + " (" + completion.get("source") + ")")
-		                                                .withLookupString((String) completion.get("en_US"))
+                                                LookupElementBuilder.create((String) completion.get("en_US"))
+                                                        .withLookupString(((String) completion.get("key")).toLowerCase())
+                                                        .withLookupString(((String) completion.get("key")).toUpperCase())
 		                                                .withLookupString(((String) completion.get("en_US")).toLowerCase())
-		                                                .withLookupString(((String) completion.get("key")))
 		                                                .withTailText((String) "-" + completion.get("en_US") + "/" +  completion.get("ko_KR"), true)
                                                         .withTypeText((String) completion.get("source"), true)
                                                         .withInsertHandler((con, item) -> {

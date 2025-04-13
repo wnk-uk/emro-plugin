@@ -2,7 +2,6 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
     id("org.jetbrains.intellij") version "1.17.4"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.emro"
@@ -43,7 +42,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
+        sinceBuild.set("242")
         untilBuild.set("999.*")
     }
 
@@ -64,6 +63,18 @@ tasks {
     }
 
     runIde {
+        jvmArgs(
+            "-Xmx2048m",
+            "-XX:ReservedCodeCacheSize=512m",
+            "-XX:+UseG1GC",
+            "-Didea.debug.mode=true",
+            "-Djava.net.preferIPv4Stack=true",
+            "-Dsun.awt.enableInputMethod=true",
+            "-Djavafx.embed.singleThread=true"
+        )
+    }
+
+    runIdeForUiTests {
         jvmArgs(
             "-Xmx2048m",
             "-XX:ReservedCodeCacheSize=512m",

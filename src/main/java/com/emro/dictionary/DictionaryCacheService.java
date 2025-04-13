@@ -86,7 +86,7 @@ public final class DictionaryCacheService {
             for (Map.Entry<String, Map<String, Object>> entry : glossary.entrySet()) {
                 Map<String, Object> metadata = entry.getValue();
                 metadata.put("key", entry.getKey());
-                LuceneManager.getInstance().indexData(metadata);
+                LuceneManagerGlo.getInstance().indexData(metadata);
             }
 
         } catch (Exception e) {
