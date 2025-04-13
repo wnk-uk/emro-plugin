@@ -27,7 +27,9 @@
 
     <extensions defaultExtensionNs="com.intellij">
 	    <backgroundPostStartupActivity implementation="com.emro.emro.plugin.StartUpActivity"/>
-        <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="any"/>
+        <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="JAVA"/>
+        <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="HTML"/>
+        <completion.contributor implementationClass="com.emro.contributor.AutoCompletionContributor" language="JavaScript"/>
         <toolWindow id="WebViewTool" anchor="right" factoryClass="com.emro.register.WebViewToolFactory" canCloseContents="true" secondary="true"/>
         <notificationGroup id="DictionarySyncNotification" displayType="BALLOON" />
         <applicationConfigurable id="EmroPluginSettings" displayName="Caidentia Plugin Settings" groupId="other" instance="com.emro.configuration.PluginSettingsConfigurable"/>
@@ -44,6 +46,12 @@
         <action id="ShowWebViewToolAction" class="com.emro.register.RestoreWebViewAction" text="Show WebView Tool" description="Show the WebView Tool Window">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt w"/>
+        </action>
+        <action id="ShowKeywordPopupAction"
+                class="com.emro.dictionary.ShowKeywordPopupAction"
+                text="Show Keyword Popup"
+                description="Shows a list of predefined keywords.">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt g"/>
         </action>
     </actions>
 
