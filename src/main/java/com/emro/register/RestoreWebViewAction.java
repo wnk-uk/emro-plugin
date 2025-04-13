@@ -20,7 +20,9 @@ public class RestoreWebViewAction extends AnAction {
             if (toolWindow != null) {
                 ContentManager contentManager = toolWindow.getContentManager();
                 if (contentManager.getContentCount() == 0) {
-                    WebViewToolFactory.addWebViewContent(toolWindow, state.syncServiceUrl); // 콘텐츠 다시 추가
+                    String url = state.syncServiceUrl;
+                    if (state.tokenPath == null || "".equals(state.tokenPath)) WebViewToolFactory.addWebViewSignContent(toolWindow, url);
+                    else WebViewToolFactory.addWebViewContent(toolWindow, url + "/ssoLogin?token=" + state.tokenPath); // 콘텐츠 다시 추가
                 }
                 if (toolWindow.isVisible()) {
 					toolWindow.hide();

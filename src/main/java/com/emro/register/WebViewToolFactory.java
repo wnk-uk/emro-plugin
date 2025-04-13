@@ -23,10 +23,30 @@ public class WebViewToolFactory implements ToolWindowFactory {
         addWebViewContent(toolWindow, state.syncServiceUrl);
     }
 
-    public static void addWebViewContent(@NotNull ToolWindow toolWindow, @NotNull String syncServiceUrl) {
+	public static void addWebViewSignContent(@NotNull ToolWindow toolWindow, @NotNull String syncServiceUrl) {
+		// WebView 콘텐츠 생성
+		JBCefBrowser browser = new JBCefBrowser(syncServiceUrl);
+		browser.getJBCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
+			@Override
+			public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int httpStatusCode) {
+				cefBrowser.executeJavaScript(
+						"document.querySelector('.tab[data-target=signup]')?.click();",
+						cefBrowser.getURL(),
+						0
+				);
+			}
+		}, browser.getCefBrowser());
 
+		ContentFactory contentFactory = ContentFactory.getInstance();
+		Content content = contentFactory.createContent(browser.getComponent(), "Web Viewer", false);
+
+		// Tool Window에 콘텐츠 추가
+		toolWindow.getContentManager().addContent(content);
+	}
+
+    public static void addWebViewContent(@NotNull ToolWindow toolWindow, @NotNull String syncServiceUrl) {
         // WebView 콘텐츠 생성
-        JBCefBrowser browser = new JBCefBrowser(syncServiceUrl + "/ssoLogin");
+        JBCefBrowser browser = new JBCefBrowser(syncServiceUrl);
 	    clickedOnce.set(false);
 	    browser.getJBCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
 		    @Override

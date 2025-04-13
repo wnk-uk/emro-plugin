@@ -14,10 +14,10 @@ repositories {
 
 dependencies {
     // Apache Lucene
-    implementation("org.apache.lucene:lucene-core:9.12.0")
-    implementation("org.apache.lucene:lucene-analysis-common:9.12.0")
-    implementation("org.apache.lucene:lucene-queryparser:9.12.0") // QueryParser 사용 시 필요
-    implementation("org.apache.lucene:lucene-codecs:9.12.0")
+    implementation("org.apache.lucene:lucene-core:9.7.0")
+    implementation("org.apache.lucene:lucene-analysis-common:9.7.0")
+    implementation("org.apache.lucene:lucene-queryparser:9.7.0") // QueryParser 사용 시 필요
+    implementation("org.apache.lucene:lucene-codecs:9.7.0")
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -58,6 +58,7 @@ tasks {
     }
 
     prepareSandbox {
+        dependsOn(shadowJar)
         from(layout.buildDirectory.file("libs/${project.name}-${project.version}.jar")) {
             into("lib")
         }

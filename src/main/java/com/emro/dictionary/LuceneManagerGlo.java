@@ -2,6 +2,7 @@ package com.emro.dictionary;
 
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.codecs.lucene95.Lucene95Codec;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
