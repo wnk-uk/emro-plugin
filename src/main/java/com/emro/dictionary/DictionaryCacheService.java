@@ -14,11 +14,15 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +46,7 @@ public final class DictionaryCacheService {
 	                  // Dictionary 동기화 실행
 	                  DictionaryCacheService service = project.getService(DictionaryCacheService.class);
 	                  if (service != null) {
-	                      service.sync(false);
+	                      if (!service.sync(false)) return;
 	                  }
 
 	                  // 진행률 업데이트 (예제용 대기 시간 추가)
@@ -67,10 +71,20 @@ public final class DictionaryCacheService {
       });
     }
 
-    public synchronized void sync(boolean isLoad) {
+    public synchronized boolean sync(boolean isLoad) {
+        try {
+            fetchJson();
+        } catch (Exception e) {
+            Notification notification = NotificationGroupManager.getInstance()
+                    .getNotificationGroup("DictionarySyncNotification")
+                    .createNotification("Check Configuration Sync Path: " + e.getMessage(), NotificationType.ERROR);
+            notification.notify(project);
+            return false;
+        }
+
         try {
 	        if (dictionary == null || isLoad) {
-		        dictionary = loadJsonFile("dic.json");
+		        dictionary = loadJsonFile("multilang.json");
 	        }
             if (glossary == null || isLoad) {
                 glossary = loadJsonFile("glo.json");
@@ -92,6 +106,8 @@ public final class DictionaryCacheService {
         } catch (Exception e) {
             throw new RuntimeException("Error syncing dictionary", e);
         }
+
+        return true;
     }
 
     public static Map<String, Map<String, Object>> getDictionary() {
@@ -121,6 +137,32 @@ public final class DictionaryCacheService {
             }
         }
         return new HashMap<>();
+    }
+
+    public void fetchJson() throws IOException {
+        String[] filenames = {"multilang.json", "glo.json"};
+        PluginSettingsState state = PluginSettingsState.getInstance(project);
+
+        for (String filename : filenames) {
+            URL url = new URL(state.syncServiceUrl + "/api/down/resource/" + filename);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                throw new IOException("Failed to fetch glo.json: HTTP " + responseCode);
+            }
+            Path dirPath = Paths.get(state.languageFilePath);
+            Files.createDirectories(dirPath);
+            Path filePath = dirPath.resolve(filename);
+
+            try (InputStream in = conn.getInputStream();
+                 OutputStream out = Files.newOutputStream(filePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                in.transferTo(out);
+            } finally {
+                conn.disconnect();
+            }
+        }
     }
 
 }

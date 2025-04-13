@@ -30,7 +30,7 @@ public class PluginSettingsComponent {
 	    fileChooserButton.addActionListener(e -> chooseDirectory(languageFilePathField));
 
 	    // 설명 레이블
-	    JBLabel descriptionLabel = new JBLabel("다국어 파일 경로에 존재하는 json 파일을 메모리에 캐시합니다. (dic.json/glo.json)");
+	    JBLabel descriptionLabel = new JBLabel("다국어 파일 경로에 존재하는 json 파일을 메모리에 캐시합니다. (multilang.json/glo.json)");
 	    descriptionLabel.setForeground(JBColor.GRAY);
 
 	    JBLabel tokenDescriptionLabel = new JBLabel("관리자에게 인증토큰을 발급받아 기입합니다.");
