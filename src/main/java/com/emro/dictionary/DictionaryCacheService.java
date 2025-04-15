@@ -74,6 +74,8 @@ public final class DictionaryCacheService {
     public synchronized boolean sync(boolean isLoad) {
         try {
             fetchJson();
+	        LuceneManager.getInstance().refresh();
+	        LuceneManagerGlo.getInstance().refresh();
         } catch (Exception e) {
             Notification notification = NotificationGroupManager.getInstance()
                     .getNotificationGroup("DictionarySyncNotification")
@@ -94,12 +96,16 @@ public final class DictionaryCacheService {
             for (Map.Entry<String, Map<String, Object>> entry : dictionary.entrySet()) {
                 Map<String, Object> metadata = entry.getValue();
                 metadata.put("key", entry.getKey());
+	            if (metadata.get("ko_KR") == null || "".equals(metadata.get("ko_KR"))) metadata.put("ko_KR", "ko_KR Not Register");
+	            if (metadata.get("en_US") == null || "".equals(metadata.get("en_US"))) metadata.put("en_US", "en_US Not Register");
                 LuceneManager.getInstance().indexData(metadata);
             }
 
             for (Map.Entry<String, Map<String, Object>> entry : glossary.entrySet()) {
                 Map<String, Object> metadata = entry.getValue();
                 metadata.put("key", entry.getKey());
+	            if (metadata.get("ko_KR") == null || "".equals(metadata.get("ko_KR"))) metadata.put("ko_KR", "ko_KR Not Register");
+	            if (metadata.get("en_US") == null || "".equals(metadata.get("en_US"))) metadata.put("en_US", "en_US Not Register");
                 LuceneManagerGlo.getInstance().indexData(metadata);
             }
 

@@ -1,32 +1,47 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
-    id("org.jetbrains.intellij") version "1.17.4"
+    id("org.jetbrains.intellij.platform") version "2.5.0"
 }
 
 group = "com.emro"
 version = "1.0-SNAPSHOT"
 
+
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
-
+//
 dependencies {
     // Apache Lucene
     implementation("org.apache.lucene:lucene-core:9.12.0")
     implementation("org.apache.lucene:lucene-analysis-common:9.12.0")
     implementation("org.apache.lucene:lucene-queryparser:9.12.0") // QueryParser 사용 시 필요
     implementation("org.apache.lucene:lucene-codecs:9.12.0")
+    intellijPlatform {
+        intellijIdeaUltimate("2024.3.5")
+    }
 }
 
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("2023.3.2")
-    type.set("IU") // Target IDE Platform
-    pluginName.set("emro-plugin")
-    plugins.set(listOf("java"))
-
+intellijPlatform  {
+    pluginConfiguration {
+        name = "caidentia-plugin";
+    }
+    //version.set("2024.3.5")
+    //type.set("IU") // Target IDE Platform
+    //pluginName.set("emro-plugin")
+    //plugins.set(listOf("java"))
+    //plugins {
+//        listOf("java")
+    //}
     instrumentCode.set(false) // 기본 instrumented jar 무효화 (선택)
     //downloadSources.set(false)
 }
@@ -37,12 +52,12 @@ tasks {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
     }
 
     patchPluginXml {
-        sinceBuild.set("242")
+        sinceBuild.set("232")
         untilBuild.set("999.*")
     }
 
@@ -63,18 +78,6 @@ tasks {
     }
 
     runIde {
-        jvmArgs(
-            "-Xmx2048m",
-            "-XX:ReservedCodeCacheSize=512m",
-            "-XX:+UseG1GC",
-            "-Didea.debug.mode=true",
-            "-Djava.net.preferIPv4Stack=true",
-            "-Dsun.awt.enableInputMethod=true",
-            "-Djavafx.embed.singleThread=true"
-        )
-    }
-
-    runIdeForUiTests {
         jvmArgs(
             "-Xmx2048m",
             "-XX:ReservedCodeCacheSize=512m",

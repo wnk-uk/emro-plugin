@@ -99,6 +99,10 @@ public class LuceneManager {
 		directory.close();
 	}
 
+	public void refresh() throws IOException {
+		writer.deleteAll();
+	}
+
 
 
 }

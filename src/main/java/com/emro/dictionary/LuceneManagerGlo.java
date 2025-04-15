@@ -100,6 +100,10 @@ public class LuceneManagerGlo {
         directory.close();
     }
 
+	public void refresh() throws IOException {
+		writer.deleteAll();
+	}
+
 
 
 }
