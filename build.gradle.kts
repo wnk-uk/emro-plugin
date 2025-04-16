@@ -33,7 +33,7 @@ dependencies {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellijPlatform  {
     pluginConfiguration {
-        name = "caidentia-plugin";
+        name = "Caidentia-plugin";
     }
     //version.set("2024.3.5")
     //type.set("IU") // Target IDE Platform

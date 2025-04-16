@@ -5,10 +5,10 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Caidentia Dictionary Assistant</name>
+    <name>Caidentia Multilanguage Assistant</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="emro@emro.co.kr" url="https://www.emro.co.kr">emro</vendor>
+    <vendor email="emro@emro.co.kr" url="https://www.emro.co.kr">Caidentia</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
