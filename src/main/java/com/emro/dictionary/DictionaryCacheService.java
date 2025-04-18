@@ -37,10 +37,10 @@ public final class DictionaryCacheService {
         this.project = project;
 
 	    // 비동기 진행률 표시
-	    ProgressManager.getInstance().run(new Task.Backgroundable(project, "다국어 동기화 진행 중...") {
+	    ProgressManager.getInstance().run(new Task.Backgroundable(project, "Multilanguage Synchronization Progress...") {
               @Override
               public void run(@NotNull ProgressIndicator indicator) {
-	              indicator.setText("다국어를 동기화중입니다...");
+	              indicator.setText("Multilanguage Synchronization Progress...");
 	              indicator.setFraction(0.0);
 	              try {
 	                  // Dictionary 동기화 실행
@@ -58,13 +58,13 @@ public final class DictionaryCacheService {
 	                  // 동기화 완료 알림
 	                  Notification notification = NotificationGroupManager.getInstance()
 	                          .getNotificationGroup("DictionarySyncNotification")
-	                          .createNotification("다국어 동기화 완료", NotificationType.INFORMATION);
+	                          .createNotification("Multilanguage Synchronization Completed", NotificationType.INFORMATION);
 	                  notification.notify(project);
 
 	              } catch (Exception e) {
 	                  Notification notification = NotificationGroupManager.getInstance()
 	                          .getNotificationGroup("DictionarySyncNotification")
-	                          .createNotification("동기화 실패: " + e.getMessage(), NotificationType.ERROR);
+	                          .createNotification("Multilanguage Synchronization Failed: " + e.getMessage(), NotificationType.ERROR);
 	                  notification.notify(project);
 	              }
               }
@@ -86,7 +86,7 @@ public final class DictionaryCacheService {
 
         try {
 	        if (dictionary == null || isLoad) {
-		        dictionary = loadJsonFile("multilang.json");
+		        dictionary = loadJsonFile("dic.json");
 	        }
             if (glossary == null || isLoad) {
                 glossary = loadJsonFile("glo.json");
