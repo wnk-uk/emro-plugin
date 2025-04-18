@@ -55,7 +55,7 @@ public class AutoCompletionContributor extends CompletionContributor {
 				                    }
 			                    });
 
-	                    CompletionResultSet prioritizedResult = result.withRelevanceSorter(sorter);
+	                    CompletionResultSet resultWithMatcher = result.withPrefixMatcher(inputText);
 
                         if (isKorean(inputText)) {
 	                        List<Map<String, Object>> completions = null;
@@ -65,7 +65,7 @@ public class AutoCompletionContributor extends CompletionContributor {
                                 return;
 	                        }
 	                        for (Map<String, Object> completion : completions) {
-		                        prioritizedResult.addElement(
+								resultWithMatcher.addElement(
                                         PrioritizedLookupElement.withPriority(
                                                 LookupElementBuilder.create((String) completion.get("ko_KR"))
                                                         .withTailText((String) "-" + completion.get("en_US") + "/" +  completion.get("ko_KR"), true)
@@ -93,7 +93,7 @@ public class AutoCompletionContributor extends CompletionContributor {
                                 return;
                             }
                             for (Map<String, Object> completion : completions) {
-	                            prioritizedResult.addElement(
+								resultWithMatcher.addElement(
                                         PrioritizedLookupElement.withPriority(
                                                 LookupElementBuilder.create((String) completion.get("en_US"))
 		                                                .withLookupString(((String) completion.get("en_US")).toUpperCase())
@@ -112,7 +112,7 @@ public class AutoCompletionContributor extends CompletionContributor {
                             }
 
 	                        for (Map<String, Object> completion : completionsKeys) {
-		                        prioritizedResult.addElement(
+								resultWithMatcher.addElement(
 				                        PrioritizedLookupElement.withPriority(
 						                        LookupElementBuilder.create((String) completion.get("key"))
 								                        .withLookupString(((String) completion.get("key")).toLowerCase())
