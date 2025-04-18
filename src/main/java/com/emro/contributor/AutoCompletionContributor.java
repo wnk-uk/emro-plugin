@@ -163,20 +163,48 @@ public class AutoCompletionContributor extends CompletionContributor {
 
 
 
-    private String getInputText(@NotNull CompletionParameters parameters) {
-        int offset = parameters.getOffset(); // 현재 커서 위치
-        CharSequence text = parameters.getEditor().getDocument().getCharsSequence();
+//    private String getInputText(@NotNull CompletionParameters parameters) {
+//        int offset = parameters.getOffset(); // 현재 커서 위치
+//        CharSequence text = parameters.getEditor().getDocument().getCharsSequence();
+//
+//        // 커서 이전 텍스트 추출 (최대 20자)
+//        int startOffset = Math.max(0, offset - 20);
+//        String textBeforeCursor = text.subSequence(startOffset, offset).toString();
+//
+//        // 공백이나 특수 문자 기준으로 가장 마지막 단어만 추출
+//        String[] tokens = textBeforeCursor.split("\\s+|<|>|\\(|\\)|\\{|\\}|\"|'");
+//        return tokens.length > 0 ? tokens[tokens.length - 1] : "";
+//    }
 
-        // 커서 이전 텍스트 추출 (최대 20자)
-        int startOffset = Math.max(0, offset - 20);
-        String textBeforeCursor = text.subSequence(startOffset, offset).toString();
-	    textBeforeCursor = textBeforeCursor.trim();
+	private String getInputText(@NotNull CompletionParameters parameters) {
+		int offset = parameters.getOffset(); // 현재 커서 위치
+		CharSequence text = parameters.getEditor().getDocument().getCharsSequence();
 
-        // 공백이나 특수 문자 기준으로 가장 마지막 단어만 추출
-        String[] tokens = textBeforeCursor.split("\\s+|<|>|\\(|\\)|\\{|\\}|\"|'");
-        //return tokens.length > 0 ? tokens[tokens.length - 1] : "";
-	    return tokens.length > 0 ? String.join("", tokens) : "";
-    }
+		// 1. 현재 줄 시작 위치 구하기
+		int lineStart = offset;
+		while (lineStart > 0) {
+			char ch = text.charAt(lineStart - 1);
+			if (ch == '\n' || ch == '\r') break;
+			lineStart--;
+		}
+
+		// 2. 현재 줄에서 커서까지의 텍스트 추출
+		String lineUpToCursor = text.subSequence(lineStart, offset).toString();
+		lineUpToCursor = lineUpToCursor.replace(" ", "");
+
+		// 3. 특수문자나 공백을 만나기 전까지 거꾸로 읽기
+		StringBuilder sb = new StringBuilder();
+		for (int i = lineUpToCursor.length() - 1; i >= 0; i--) {
+			char ch = lineUpToCursor.charAt(i);
+			if (Character.isWhitespace(ch) || ch == '<' || ch == '>' ||
+					ch == '(' || ch == ')' || ch == '{' || ch == '}' ||
+					ch == '"' || ch == '\'' || ch == ';') {
+				break;
+			}
+			sb.insert(0, ch);
+		}
+		return sb.toString();
+	}
 
     /**
      * 현재 위치에서 상위 XML 태그를 찾는 유틸리티 메서드.

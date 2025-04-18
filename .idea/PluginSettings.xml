@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.emro.configuration.PluginSettingsState">
+    <option name="syncServiceUrl" value="http://192.168.6.94" />
+    <option name="languageFilePath" value="$PROJECT_DIR$/../../../dic" />
+  </component>
+</project>
