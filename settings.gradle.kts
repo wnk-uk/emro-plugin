@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "emro-plugin"
+rootProject.name = "multilang-plugin"

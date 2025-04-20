@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.emro"
-version = "1.0-SNAPSHOT"
+version = "1.1"
 
 
 repositories {
@@ -44,6 +44,7 @@ intellijPlatform  {
     //}
     instrumentCode.set(false) // 기본 instrumented jar 무효화 (선택)
     //downloadSources.set(false)
+    buildSearchableOptions.set(false)
 }
 
 tasks {
