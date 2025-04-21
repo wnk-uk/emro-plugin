@@ -38,9 +38,9 @@ public class PluginSettingsComponent {
 
 	    // UI 배치 (FormBuilder 활용)
 	    panel = FormBuilder.createFormBuilder()
-			    .addLabeledComponent("Dictionary directory path:", createFileChooserPanel(languageFilePathField, fileChooserButton))
+			    .addLabeledComponent("Multilang directory path:", createFileChooserPanel(languageFilePathField, fileChooserButton))
 			    .addComponent(descriptionLabel)
-			    .addLabeledComponent("Dictionary sync url:", syncServiceUrlField)
+			    .addLabeledComponent("Multilang sync url:", syncServiceUrlField)
 //			    .addComponentFillVertically(new JPanel(), 0)
 			    .addLabeledComponent("Authorization token:", tokenField)
 			    .addComponent(tokenDescriptionLabel)

@@ -7,7 +7,7 @@ import com.intellij.openapi.project.Project;
         name = "com.emro.configuration.PluginSettingsState",
         storages = @Storage("PluginSettings.xml") // 설정이 저장될 XML 파일명
 )
-@Service(Service.Level.PROJECT)
+@Service(Service.Level.APP)
 public final class PluginSettingsState implements PersistentStateComponent<PluginSettingsState> {
 
     public String syncServiceUrl = ""; // 기본 URL
@@ -15,7 +15,8 @@ public final class PluginSettingsState implements PersistentStateComponent<Plugi
 	public String tokenPath = ""; // 기본 저장 경로
 
     public static PluginSettingsState getInstance(Project project) {
-        return project.getService(PluginSettingsState.class);
+        //return project.getService(PluginSettingsState.class);
+	    return ApplicationManager.getApplication().getService(PluginSettingsState.class);
     }
 
     @Override

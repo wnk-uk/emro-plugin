@@ -14,7 +14,7 @@ public class PluginSettingsConfigurable implements Configurable {
 
     @Override
     public @Nls(capitalization = Nls.Capitalization.Title) String getDisplayName() {
-        return "Caidentia Plugin Settings";
+        return "Caidentia Multilang Plugin Settings";
     }
 
     @Override

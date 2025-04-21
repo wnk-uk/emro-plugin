@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.emro"
-version = "1.1"
+version = "1.2"
 
 
 repositories {
@@ -33,7 +33,7 @@ dependencies {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellijPlatform  {
     pluginConfiguration {
-        name = "Caidentia-plugin";
+        name = "Caidentia-multilang-plugin";
     }
     //version.set("2024.3.5")
     //type.set("IU") // Target IDE Platform
