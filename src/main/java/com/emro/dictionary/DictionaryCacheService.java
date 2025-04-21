@@ -86,7 +86,7 @@ public final class DictionaryCacheService {
 
         try {
 	        if (dictionary == null || isLoad) {
-		        dictionary = loadJsonFile("dic.json");
+		        dictionary = loadJsonFile("multilang.json");
 	        }
             if (glossary == null || isLoad) {
                 glossary = loadJsonFile("glo.json");
