@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "multilang-plugin"
+rootProject.name = "Caidentia-multilang-plugin"

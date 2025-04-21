@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.emro"
-version = "1.2"
+version = "1.0"
 
 
 repositories {
